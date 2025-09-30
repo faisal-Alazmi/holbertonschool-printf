@@ -1,5 +1,38 @@
 #include "main.h"
 /**
+ * print_percent - prints a literal percent sign
+ *
+ * Return: 1 on success, -1 on error
+ */
+static int print_percent(void)
+{
+if (_putchar('%') == -1)
+return (-1);
+return (1);
+}
+/**
+ * handle_conv - handles a single conversion specifier for Task 0
+ * @spec: conversion specifier character
+ * @ap: active variadic argument list
+ *
+ * Return: number of characters printed, or -1 on error
+ */
+static int handle_conv(char spec, va_list ap)
+{
+if (spec == 'c')
+return (print_char(va_arg(ap, int)));
+if (spec == 's')
+return (print_str(va_arg(ap, char *)));
+if (spec == '%')
+return (print_percent());
+/* Unknown specifier: print literally as %<char> */
+if (_putchar('%') == -1)
+return (-1);
+if (_putchar(spec) == -1)
+return (-1);
+return (2);
+}
+/**
  * _printf - produces output according to a format
  * @format: format string with zero or more directives
  *
@@ -10,16 +43,15 @@
 int _printf(const char *format, ...)
 {
 va_list ap;
-const char *p;
 int count = 0, rc;
 if (format == 0)
 return (-1);
 va_start(ap, format);
-for (p = format; *p != '\0'; p++)
+for (; *format; format++)
 {
-if (*p != '%')
+if (*format != '%')
 {
-if (_putchar(*p) == -1)
+if (_putchar(*format) == -1)
 {
 va_end(ap);
 return (-1);
@@ -27,50 +59,19 @@ return (-1);
 count++;
 continue;
 }
-p++;
-if (*p == '\0')
+format++;
+if (!*format)
 {
 va_end(ap);
 return (-1);
 }
-if (*p == 'c')
-{
-rc = print_char(va_arg(ap, int));
+rc = handle_conv(*format, ap);
 if (rc == -1)
 {
 va_end(ap);
 return (-1);
 }
 count += rc;
-}
-else if (*p == 's')
-{
-rc = print_str(va_arg(ap, char *));
-if (rc == -1)
-{
-va_end(ap);
-return (-1);
-}
-count += rc;
-}
-else if (*p == '%')
-{
-if (_putchar('%') == -1)
-{
-va_end(ap);
-return (-1);
-}
-count++;
-}
-else
-{
-if (_putchar('%') == -1 || _putchar(*p) == -1)
-{
-va_end(ap);
-return (-1);
-}
-count += 2;
-}
 }
 va_end(ap);
 return (count);
