@@ -18,4 +18,4 @@ int _putchar(char c);
 int print_char(int c);         /* handles %c */
 int print_str(const char *s);  /* handles %s */
 
-#endif 
+#endif
