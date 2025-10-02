@@ -76,3 +76,24 @@ count += rc;
 va_end(ap);
 return (count);
 }
+static int handle_conv(char spec, va_list ap)
+{
+if (spec == 'c')
+return (print_char(va_arg(ap, int)));
+if (spec == 's')
+return (print_str(va_arg(ap, char *)));
+if (spec == 'd' || spec == 'i')
+return (print_int(va_arg(ap, int)));
+if (spec == '%')
+{
+if (_putchar('%') == -1)
+return (-1);
+return (1);
+}
+	/* Unknown: print literally as %<char> */
+if (_putchar('%') == -1)
+return (-1);
+if (_putchar(spec) == -1)
+return (-1);
+return (2);
+}
