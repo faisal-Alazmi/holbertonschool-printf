@@ -39,6 +39,10 @@ static int handle_conv(char spec, va_list ap)
 	{
 		return (print_percent());
 	}
+	if (spec == 'b')
+	{
+		return (print_bin(va_arg(ap, unsigned int)));
+	}
 
 	/* Unknown: print literally as %<char> */
 	if (_putchar('%') == -1)

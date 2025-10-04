@@ -117,3 +117,42 @@ int print_int(int n)
 	}
 	return (count + rc);
 }
+/**
+ * print_bin - prints an unsigned int in binary
+ * @n: value to print
+ *
+ * Return: number of chars printed, or -1 on error
+ */
+int print_bin(unsigned int n)
+{
+	char buf[sizeof(unsigned int) * 8];
+	int i = 0;
+	int j;
+	int count = 0;
+
+	if (n == 0)
+	{
+		if (_putchar('0') == -1)
+		{
+			return (-1);
+		}
+		return (1);
+	}
+
+	while (n > 0)
+	{
+		buf[i] = (char)('0' + (n & 1));
+		i++;
+		n >>= 1;
+	}
+
+	for (j = i - 1; j >= 0; j--)
+	{
+		if (_putchar(buf[j]) == -1)
+		{
+			return (-1);
+		}
+		count++;
+	}
+	return (count);
+}
