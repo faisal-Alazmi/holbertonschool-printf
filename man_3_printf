@@ -1,0 +1,65 @@
+.TH _PRINTF 3 "October 2025" "holbertonschool-printf" "Library Functions Manual"
+.SH NAME
+_printf \- format and print data
+.SH SYNOPSIS
+.B #include "main.h"
+.br
+.BI "int _printf(const char *" format ", ...);"
+.SH DESCRIPTION
+_printf writes output to the standard output according to a format string.
+The function accepts a variable number of arguments. Only a subset of the
+standard printf(3) conversion specifiers is supported. Unsupported flags,
+field width, precision, and length modifiers are ignored.
+
+If an unknown conversion specifier is encountered, the sequence is printed
+literally as "%<char>".
+
+When the string argument for %s is NULL, the string "(null)" is printed.
+.SH RETURN VALUE
+On success, the number of characters printed is returned (excluding the
+terminating null byte used to end output to strings). On failure, \-1 is
+returned.
+.SH CONVERSION SPECIFIERS
+The following conversion specifiers are handled:
+.TP
+.B %c
+Print a single character (int promoted).
+.TP
+.B %s
+Print a NUL-terminated string. Prints "(null)" if the pointer is NULL.
+.TP
+.B %d
+Print a signed decimal integer.
+.TP
+.B %i
+Same as %d.
+.TP
+.B %%
+Print a literal percent sign.
+.TP
+.B %b
+Custom extension: print an unsigned int in binary (base 2).
+.SH NOTES
+This implementation does not handle flag characters, field width, precision,
+or length modifiers. Output is produced via write(2).
+
+Behavior for edge cases not described here is intended to be similar to
+printf(3) where applicable.
+.SH EXAMPLES
+.nf
+#include "main.h"
+
+int main(void)
+{
+    _printf("Hello %s %d%%\\n", "world", 100);
+    _printf("Char: %c\\n", 'A');
+    _printf("Bin: %b\\n", 98);  /* prints 1100010 */
+    return (0);
+}
+.fi
+.SH SEE ALSO
+printf(3), write(2), va_start(3), va_end(3), va_arg(3)
+.SH AUTHORS
+Holberton group project.
+
+
